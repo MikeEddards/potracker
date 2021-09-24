@@ -26,7 +26,7 @@ export const Dashboard = (props) => {
     const handleSubmit = (e) =>{
         e.preventDefault()
         props.updateCurrPo(newPo)
-        
+        props.history.push('/builder')
     }
 
     return (
@@ -34,13 +34,13 @@ export const Dashboard = (props) => {
             <div className='dashMain'>
                 <div className='leftDiv'>
                     <h2>
-                        Recent Po's
+                        Recent PO's
                     </h2>
                     {recentPo}
                 </div>
                 <div className='rightDiv'>
                     <form className='inputContainer' onSubmit={handleSubmit}>
-                    <h1>Scan Po</h1>
+                    <h1>Scan PO</h1>
                     <input 
                     autoFocus
                     value={newPo}

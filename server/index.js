@@ -1,16 +1,19 @@
+require('dotenv').config()
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const port = 4000
+
+const {PORT,HOST,USER,PASSWORD,DATABASE} = process.env
+
 const app = express()
 app.use(cors())
 app.use(express.json())
 
 var db = mysql.createPool({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'password',
-    database : 'po_tracker'
+    host     : HOST,
+    user     : USER,
+    password : PASSWORD,
+    database : DATABASE
   });
   
     app.get('/api/getpolist',(req,res)=>{
@@ -25,4 +28,4 @@ var db = mysql.createPool({
 
 
 
-  app.listen(port, () => console.log(`All ears on port: ${port}`)) 
+  app.listen(PORT, () => console.log(`All ears on port: ${PORT}`)) 

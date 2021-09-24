@@ -1,6 +1,6 @@
 const initialState = {
     recentPos: [],
-    currentPo: ''
+    currentPo: '2222'
 }
 const UPDATE_POS = 'UPDATE_POS'
 const UPDATE_CURR_PO = 'UPDATE_CURR_PO'
