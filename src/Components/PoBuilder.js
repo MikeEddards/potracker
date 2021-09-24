@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 
 export const PoBuilder = (props) => {
     const [sku,setSku] = useState('')
+    const [skuSubmit, submitSku] = useState(false)
     const [parts,setParts] = useState([])
     const [input,setInput] = useState('')
     console.log(props)
 
 
     const handleSkuSearch=(e)=>{
-
+        
     }
 
     return (
@@ -32,7 +33,8 @@ export const PoBuilder = (props) => {
                         <h2>Scan SKU</h2>
                         <input
                             autoFocus
-
+                            value={sku}
+                            onChange={e=>setSku(e.target.value)}
                         />
                     </form>
                 }

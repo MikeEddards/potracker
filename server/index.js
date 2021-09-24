@@ -1,9 +1,15 @@
-require('dotenv').config()
+require('dotenv').config({path:'../.env'})
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
 
-const {PORT,HOST,USER,PASSWORD,DATABASE} = process.env
+const {
+  SERVER_PORT,
+  HOST,
+  USER,
+  PASSWORD,
+  DATABASE
+} = process.env
 
 const app = express()
 app.use(cors())
@@ -15,7 +21,7 @@ var db = mysql.createPool({
     password : PASSWORD,
     database : DATABASE
   });
-  
+
     app.get('/api/getpolist',(req,res)=>{
       // connection.connect();
       db.query('SELECT * FROM po_list ORDER BY id DESC LIMIT 10;', function (error, results, fields) {
@@ -28,4 +34,4 @@ var db = mysql.createPool({
 
 
 
-  app.listen(PORT, () => console.log(`All ears on port: ${PORT}`)) 
+  app.listen(SERVER_PORT, () => console.log(`All ears on port: ${SERVER_PORT}`)) 
