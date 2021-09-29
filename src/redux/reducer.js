@@ -1,9 +1,11 @@
 const initialState = {
     recentPos: [],
-    currentPo: '2222'
+    currentPo: '555444',
+    skuList: []
 }
 const UPDATE_POS = 'UPDATE_POS'
 const UPDATE_CURR_PO = 'UPDATE_CURR_PO'
+const UPDATE_SKU_LIST = 'UPDATE_SKU_LIST'
 
 export function updatePos(data){
     return {
@@ -17,6 +19,12 @@ export function updateCurrPo(data){
         payload: data
     }
 }
+export function updateSkuList(data) {
+    return {
+        type: UPDATE_SKU_LIST,
+        payload: data
+    }
+}
 
 function reducer (state = initialState, action){
     switch (action.type){
@@ -26,6 +34,9 @@ function reducer (state = initialState, action){
         case UPDATE_CURR_PO:
             const currentPo=action.payload
             return {currentPo}
+        case UPDATE_SKU_LIST:
+            const skuList=action.payload
+            return {skuList}
         default:
             return state
     }

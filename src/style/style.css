@@ -1,5 +1,15 @@
-h1, h2, h3, h4, p {
+h1, h2, h3, h4, p, li {
   font-family: 'Roboto',sans-serif;
+}
+
+ul {
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+  padding: 2rem 0rem 2rem 0rem;
+  font-size: 1.5rem;
 }
 
 header {
@@ -50,6 +60,9 @@ header img {
       -ms-flex-pack: start;
           justify-content: flex-start;
   width: 50%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 
 .dashMain .rightDiv .inputContainer {
@@ -64,5 +77,43 @@ header img {
       -ms-flex-direction: column;
           flex-direction: column;
   text-align: center;
+}
+
+.builder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-top: 2rem;
+}
+
+.builder .skulist {
+  width: 30%;
+}
+
+.builder .currentsku {
+  width: 30%;
+}
+
+.builder button {
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  -webkit-box-shadow: black 6px 4px 10px;
+          box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+
+.builder button:hover {
+  background: #c51f27;
+  -webkit-box-shadow: #444444 6px 4px 15px;
+          box-shadow: #444444 6px 4px 15px;
 }
 /*# sourceMappingURL=style.css.map */
