@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect,useDispatch} from 'react'
 import { connect } from 'react-redux'
 import {updateSkuList} from '../redux/reducer'
 import axios from 'axios'
+import SkuParser from './SkuParser'
+
+
 
 
 export const PoBuilder = (props) => {
@@ -9,52 +12,74 @@ export const PoBuilder = (props) => {
     const [skuSubmit, submitSku] = useState(false)
     const [parts,setParts] = useState([])
     const [input,setInput] = useState('')
-    const [skuCountList, setSkuCount] = useState([])
+    const [skuList, setSkuList] = useState([])
     const [po,setPoFromGlobal] = useState(props.currentPo)
+    const [alert, setAlert] = useState(false)
+    const [hidden, setHidden] = useState('hidden')
+    const [line,setLine] = useState('')
+    const [text,setText] = useState('')
 
+    useEffect(() => {
+        axios.post('/api/getpo',{po}).then(res=>{
+            if(res.data == 'Not Listed'){
+             return
+            }else{
  
-
-
+                let newData = res.data.map(unit =>{
+                    unit.parts = eval(unit.parts)
+                    return unit
+                })
+                setSkuList(newData)
+            }
+      })
+    }, [])
     const handleSkuSearch = (e) =>{
+        if(skuSubmit){
+            return
+        }
         e.preventDefault()
         setParts([])
         axios.post('/api/skusearch',{SKU:sku}).then(res =>{
-            // console.log(res.data)
-            res.data.forEach(part => {
-                let type = part.Group
-                if((type === 'CR2X')||(type ==='CR6X')||(type ==='CR5X')||(type ==='CR8X')||(type ==='CR9X')||(type ==='CR1X')){
-                    type = 'Reader'
-                }else if(type === 'BTR'){
-                    type = 'Battery'
-                }else if(type === 'MX'){
-                    type = 'Modem'
-                }else if(type === 'CR7X'){
-                    type = 'Sled'
-                }else if(type === 'CHR'){
-                    type = 'Charger'
-                }
-                setParts(parts => [...parts,{
-                    partNumber: part.Part,
-                    scanned: false,
-                    serialNumber: '',
-                    group: type
-                }])
-            })
+            if(res.data === 'No SKU'){
+                window.alert('Incorrect SKU')
+                clearState()
+            }else{
+                res.data.forEach(part => {
+                    let type = part.Group
+                    if((type === 'CR2X')||(type ==='CR6X')||(type ==='CR5X')||(type ==='CR8X')||(type ==='CR9X')||(type ==='CR1X')){
+                        type = 'Reader'
+                    }else if(type === 'BTR'){
+                        type = 'Battery'
+                    }else if(type === 'MX'){
+                        type = 'Modem'
+                    }else if(type === 'CR7X'){
+                        type = 'Sled'
+                    }else if(type === 'CHR'){
+                        type = 'Charger'
+                    }
+                    setParts(parts => [...parts,{
+                        model: part.Part,
+                        scanned: false,
+                        serial_number: '',
+                        group: type
+                    }])
+                })
+            }
     })
     if(parts){
         submitSku(true)
     }
-    
- 
 }
-  async function serialNumberCheck(e){
+
+ function serialNumberCheck(e){
+ 
        e.preventDefault()
        if((input.match(/^[0-9]{4}[0-9\x5f][0-9]{4}[A-Z]$/))||(input.match(/^[0-9]{9}[A-Z]{1}$/))){ //Battery
             parts.map((part,i)=>{
                 if(part.group === 'Battery'){
-                    if(!part.serialNumber){
+                    if(!part.serial_number){
                        let updateSn = [...parts]
-                       updateSn[i].serialNumber = input     
+                       updateSn[i].serial_number = input     
                        updateSn[i].scanned = true                
                        setParts(updateSn)
                     }
@@ -64,9 +89,9 @@ export const PoBuilder = (props) => {
        }else if(input.match(/^[0-9]{4}[A-Z][0-9]{4}$/)){ // Charger-Base
         parts.map((part,i)=>{
             if(part.group === 'Charger'){
-                if(!part.serialNumber){
+                if(!part.serial_number){
                    let updateSn = [...parts]
-                   updateSn[i].serialNumber = input     
+                   updateSn[i].serial_number = input     
                    updateSn[i].scanned = true                  
                    setParts(updateSn)
                 }
@@ -76,9 +101,9 @@ export const PoBuilder = (props) => {
        }else if(input.match(/(^R|^5)/)){ // Modem
         parts.map((part,i)=>{
             if(part.group === 'Modem'){
-                if(!part.serialNumber){
+                if(!part.serial_number){
                    let updateSn = [...parts]
-                   updateSn[i].serialNumber = input     
+                   updateSn[i].serial_number = input     
                    updateSn[i].scanned = true                  
                    setParts(updateSn)
                 }
@@ -88,22 +113,21 @@ export const PoBuilder = (props) => {
        }else if(input.match(/^[0-9]{10}$/)){ //Sled
         parts.map((part,i)=>{
             if(part.group === 'Sled'){
-                if(!part.serialNumber){
+                if(!part.serial_number){
                    let updateSn = [...parts]
-                   updateSn[i].serialNumber = input   
+                   updateSn[i].serial_number = input   
                    updateSn[i].scanned = true                    
                    setParts(updateSn)
                 }
             }
         })
         setInput('')
-       }if((input.match(/^[0-9]{10}/))||(input.match(/^[0-9]{8}/))){
-           console.log('here')
+       }if((input.match(/^[0-9]{10}$/))||(input.match(/^[0-9]{8}$/))){   
         parts.map((part,i)=>{
             if(part.group === 'Reader'){
-                if(!part.serialNumber){
+                if(!part.serial_number){
                    let updateSn = [...parts]
-                   updateSn[i].serialNumber = input   
+                   updateSn[i].serial_number = input   
                    updateSn[i].scanned = true                    
                    setParts(updateSn)
                 }
@@ -111,123 +135,75 @@ export const PoBuilder = (props) => {
         })
         setInput('')
        }
-       console.log('did')
     checkSkuFinish()
 }
 function checkSkuFinish(){
     let counter = 0
     parts.forEach(part=>{
-        if(part.scanned && part.serialNumber){
+        if(part.scanned && part.serial_number){
             counter ++
         }
     })
     if(counter === parts.length){
-        console.log('commplete')
         const toDbList = parts.map(part=>{
-            return ({
-                po: po,
-                sku: sku,
-                model: part.partNumber,
-                serial_number: part.serialNumber
-            })
-        })
-        toDbList.forEach(async (item)=>{
-            axios.post('/api/addpo',item).then(res=>{
-                props.updateSkuList([...props.skuList,{sku: sku, parts:toDbList}])
-            }).catch(err=>{
-                console.log(err)
-            })
-        })
-        
-        
-        countSku()
-        clearState()
-    }
-}
-countSku()
-function countSku(){
-  let skuCountList = []
-    props.skuList.forEach((part,i)=>{
-        skuCountList.push(part.sku)
-    })
-    for(let i = 0; i < skuCountList.length;i++){
 
+            return ({
+                model: part.model,
+                serial_number: part.serial_number
+            })
+        })
+        axios.post('/api/addpo',{
+            "po": po,
+            "sku": sku,
+            "parts": toDbList,
+            "line": line
+        }).then(res=>{
+       
+            setSkuList([...skuList,{sku: sku, parts:parts,line:line}]) 
+            clearState()
+        })
+
+      
     }
-    console.log(skuCountList)
+    
 }
-// [
-//     {
-//         "CR2611-PKCMU": [
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CR2611-XXX",
-//                 "serial_number": "20246821"
-//             },
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CRA-A104-XXX",
-//                 "serial_number": "1211K1340"
-//             },
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CRA-B5",
-//                 "serial_number": "1687_1312D"
-//             }
-//         ]
-//     },
-//     {
-//         "CR2611-PKCMU": [
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CR2611-XXX",
-//                 "serial_number": "20246821"
-//             },
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CRA-A104-XXX",
-//                 "serial_number": "1211K1340"
-//             },
-//             {
-//                 "po": "555444",
-//                 "sku": "CR2611-PKCMU",
-//                 "model": "CRA-B5",
-//                 "serial_number": "1687_1312D"
-//             }
-//         ]
-//     }
-// ]
+
 function clearState(){
     setSku('')
     submitSku(false)
     setParts([])
     setInput('')
+    setLine()
 }
-// const [skuCountList, setSkuCount] = useState([])
 
-
-
+function finishSo(){
+    props.history.push('/')
+}
 
 const snList = parts.map((part,i)=>{
- 
  return(
-     <li key={i}>{part.group} {part.partNumber}: <strong>{part.serialNumber}</strong></li>
+   
+     
+    <li style={{'display': 'flex'}} key={i}> {part.group}: {part.serial_number ? <h4 style={{'color':'gray'}} >    {part.model}:  </h4>:<h4 style={{'color':'red'}}>   {part.model}:  </h4>} <h4> <strong style={{'color':'gray','paddingLeft': '5px'}}>    {part.serial_number}</strong></h4></li>
+   
  )
 })
-console.log(props)
-    // CR2611-PKCXA  1687_1312D test sku
-    // console.log(snList)
+
+
+    const newList = (data) => {
+        setSkuList(data)
+    }
+
+
     return (
         <div className='builder' >
-            <div className='skulist' >
-                <h2>PO #{po}</h2>
-                <h3>sku placeholder</h3>
+            <div className='skulist'  >
+                <h2>SO #{po}</h2>
+                <h2>Scanned SKU's</h2>
+                <SkuParser  skuList={skuList} newList={newList} />
             </div>
             <div className='currentsku' >
+                
                 {skuSubmit? 
                     <form onSubmit={serialNumberCheck}>
                         <h2>Scan serial number</h2>
@@ -237,22 +213,56 @@ console.log(props)
                             onChange={e=>setInput(e.target.value)}
                         />
                     <ul>
+                        
                     {snList}
                     </ul>
+                    <button onClick={handleSkuSearch} >Clear Serial Numbers</button>
                     </form>
 
                     :
-                    <form onSubmit={handleSkuSearch} >
+                    <div>
+                        
+                        {line? <form onSubmit={(e)=>{
+                            if(!skuSubmit){
+                                handleSkuSearch(e)
+                            }
+                            }} >
                         <h2>Scan SKU</h2>
                         <input
                             autoFocus
                             value={sku}
                             onChange={e=>setSku(e.target.value)}
                         />
-                    </form>
+                    </form>:
+                    <form onSubmit={e=>{
+                        e.preventDefault()
+                        setLine(text)
+                        setText('')
+                    }} >
+                    <h2>Scan Line</h2>
+                    <input
+                        autoFocus
+                        value={text}
+                        onChange={e=>setText(e.target.value)}
+                    />
+                </form>
+                    }
+                    {line ?  <h4>Line Number: {line}</h4>:null}
+                 
+                    </div>
                 }
             </div>
-            <button>Finish PO</button>
+            <button onClick={()=>{
+                setAlert(!alert)
+                setHidden('alertDiv')}} >Finish SO</button>
+              <div className={hidden} >
+                    <h1>Are you finished with this sales order?</h1>
+                    <div>
+                    <button onClick={()=>{setAlert(!alert)
+                    setHidden('hidden')}} className='button1'>Cancel</button>
+                    <button className='button2' onClick={finishSo}>Finish SO</button>
+                    </div>
+                </div>
         </div>
     )
 }

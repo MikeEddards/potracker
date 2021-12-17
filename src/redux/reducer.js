@@ -1,6 +1,6 @@
 const initialState = {
     recentPos: [],
-    currentPo: '555444',
+    currentPo: '',
     skuList: []
 }
 const UPDATE_POS = 'UPDATE_POS'
@@ -26,7 +26,7 @@ export function updateSkuList(data) {
     }
 }
 
-function reducer (state = initialState, action){
+function reducer (state = initialState , action){
     switch (action.type){
         case UPDATE_POS:
             const recentPos=action.payload
@@ -35,11 +35,15 @@ function reducer (state = initialState, action){
             const currentPo=action.payload
             return {currentPo}
         case UPDATE_SKU_LIST:
-            const skuList=action.payload
-            return {skuList}
-        default:
-            return state
-    }
-}
-
-export default reducer
+            
+            return {
+                ...state,
+                skuList: [...state.skuList,action.payload]
+            }
+            // skuList: [...state.skuList,action.payload]
+            default:
+                return state
+            }
+        }
+        
+        export default reducer

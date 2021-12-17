@@ -1,103 +1,134 @@
 h1, h2, h3, h4, p, li {
-  font-family: 'Roboto',sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
 }
 
 ul {
   padding: 0;
 }
-
+ul :hover {
+  cursor: pointer;
+}
 ul li {
   list-style: none;
-  padding: 2rem 0rem 2rem 0rem;
-  font-size: 1.5rem;
 }
 
 header {
   width: 90vw;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
-
 header img {
   padding: 1rem;
+  transform: scale(0.5, 0.5);
 }
 
 .dashMain {
   width: 100%;
   height: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
 }
-
 .dashMain .leftDiv {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 50%;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 20vw;
   padding-left: 2rem;
 }
-
-.dashMain .rightDiv {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  width: 50%;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+.dashMain .leftDiv button {
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
 }
-
-.dashMain .rightDiv .inputContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.dashMain .leftDiv button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.dashMain .leftDiv .soList {
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  width: 15vw;
+  height: 5vh;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.dashMain .leftDiv .soList button {
+  height: 1.6rem;
+  width: 5rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.dashMain .leftDiv .soList button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.dashMain .leftDiv .soList .button1 {
+  background-color: #494949;
+}
+.dashMain .leftDiv .soList .button1:hover {
+  background: #ff6e6e;
+  box-shadow: #444444 6px 4px 15px;
+}
+.dashMain .rightDiv {
+  display: flex;
+  justify-content: flex-start;
+  width: 20vw;
+  align-items: flex-start;
+}
+.dashMain .rightDiv .inputContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
+}
+.dashMain .space {
+  width: 25vw;
+  display: flex;
+}
+.dashMain .space button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.dashMain .space button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
 }
 
 .builder {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 100%;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
   margin-top: 2rem;
 }
-
 .builder .skulist {
-  width: 30%;
+  width: 35%;
+  cursor: pointer;
 }
-
 .builder .currentsku {
   width: 30%;
 }
-
 .builder button {
   height: 2.5rem;
   width: 8rem;
@@ -106,14 +137,367 @@ header img {
   color: white;
   font-weight: bold;
   border-radius: 10px;
-  -webkit-box-shadow: black 6px 4px 10px;
-          box-shadow: black 6px 4px 10px;
+  box-shadow: black 6px 4px 10px;
   cursor: pointer;
 }
-
 .builder button:hover {
   background: #c51f27;
-  -webkit-box-shadow: #444444 6px 4px 15px;
-          box-shadow: #444444 6px 4px 15px;
+  box-shadow: #444444 6px 4px 15px;
 }
-/*# sourceMappingURL=style.css.map */
+
+.partList {
+  box-sizing: border-box;
+}
+
+.poSearch {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: space-between;
+  margin-top: 2rem;
+}
+.poSearch .searchinput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.poSearch .searchinput form {
+  padding: 0 2rem 0 2rem;
+}
+.poSearch .searchinput form input {
+  height: 1.5rem;
+}
+.poSearch .results {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50px;
+}
+.poSearch .results ul {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.poSearch .results ul h4 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.poSearch .editButtons {
+  margin-bottom: 20vh;
+  height: 30vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.poSearch .editButtons button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.poSearch .editButtons button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.poSearch .editButtons .button1 {
+  background-color: #494949;
+}
+.poSearch .editButtons .button1:hover {
+  background: #ff6e6e;
+  box-shadow: #444444 6px 4px 15px;
+}
+
+.hidden {
+  transition: all 300ms ease-in-out;
+  width: 60vw;
+  height: 60vh;
+  top: 50%;
+  left: 50%;
+  background-color: #ffffff;
+  box-shadow: 7px 8px 37px -5px #000000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  visibility: hidden;
+}
+.hidden button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.hidden button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.hidden .button1 {
+  background-color: #494949;
+}
+.hidden .button1:hover {
+  background: #ff6e6e;
+  box-shadow: #444444 6px 4px 15px;
+}
+
+footer {
+  width: 100%;
+  height: 5vh;
+  background-color: #AE2027;
+  position: fixed;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.alertEdit {
+  transition: all 300ms ease-in-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vh;
+  background-color: #ffffff;
+  box-shadow: 7px 8px 37px -5px #000000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.alertEdit .editButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 2rem;
+}
+.alertEdit .editButtonContainer .trash {
+  color: #444444;
+}
+.alertEdit .editButtonContainer .trash :hover {
+  color: #000000;
+}
+.alertEdit .editButtonContainer button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.alertEdit .editButtonContainer button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.alertEdit .editButtonContainer .button1 {
+  background-color: #494949;
+}
+.alertEdit .editDiv {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.editIcon {
+  margin-left: 1rem;
+}
+.editIcon :hover {
+  color: #AE2027;
+}
+
+.skuListContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.skuListContainer .skuListLi {
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 5px;
+  width: 30vw;
+}
+.skuListContainer .skuListLi .model {
+  padding-left: 10px;
+  display: flex;
+}
+.skuListContainer .skuListLi .model .first {
+  width: 15vw;
+}
+.skuListContainer .trash {
+  color: #AE2027;
+}
+.skuListContainer .trash :hover {
+  transition: all ease-in-out;
+  transform: scale(1.5);
+}
+
+.alertDiv {
+  transition: all 300ms ease-in-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vh;
+  background-color: #ffffff;
+  box-shadow: 7px 8px 37px -5px #000000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.alertDiv button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.alertDiv button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.alertDiv .button1 {
+  background-color: #494949;
+}
+
+.sku {
+  padding-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  height: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.deleteAlert {
+  transition: all 300ms ease-in-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vh;
+  box-shadow: 7px 8px 37px -5px #000000;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.deleteAlert button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.deleteAlert button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.deleteAlert .button1 {
+  background-color: #494949;
+}
+
+.soPrintContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.soPrintContainer .inputdiv {
+  width: 30vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.soPrintContainer .inputdiv button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.soPrintContainer .inputdiv button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+
+.pdfcontainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 60vh;
+}
+.pdfcontainer button {
+  margin: 1rem;
+  height: 2.5rem;
+  width: 8rem;
+  border: none;
+  background: #AE2027;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: black 6px 4px 10px;
+  cursor: pointer;
+}
+.pdfcontainer button:hover {
+  background: #c51f27;
+  box-shadow: #444444 6px 4px 15px;
+}
+.pdfcontainer .pdf {
+  width: 60vw;
+  height: 100%;
+}
+.pdfcontainer .pdf .skuname {
+  background-color: #000000;
+}/*# sourceMappingURL=style.css.map */
