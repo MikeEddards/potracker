@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import { DownloadExcel } from "react-excel-export";
 
 export default function Download() {
     const [soInput,setSoInput] = useState('')
@@ -7,6 +8,8 @@ export default function Download() {
     const [hidden, setHidden] = useState('hidden')
     const [serverList, setServerList] = useState([])
     const [parsedList, setParsedList] = useState([])
+    const [generate, setGenerate] = useState(false)
+    const [data, setData] = useState([])
 
 
 
@@ -30,18 +33,29 @@ export default function Download() {
             }
         })
     }
-async function  handlePrint(){
- 
+async function  handleGenerate(){
+    // so, line, sku, scan
+  
     let list = []
         for(const so of soList){
            await axios.post('/api/getpo',{po:so}).then(res=>{
                 list = list.concat(res.data)              
             })
         }
+        setGenerate(true)
 
-        console.log(list)
-         setServerList(list) 
-        listParser(serverList)
+        let dataList = list.map(item =>{
+            return {
+                SO: item.po,
+                Line: item.line,
+                SKU: item.sku,
+                Scan: eval(item.parts).map(unit=>{
+                    return   `model: ${unit.model}, serial_number: ${unit.serial_number} `
+                }).join()
+                }
+        })
+    
+        setData(dataList)
     }
     
 
@@ -74,6 +88,7 @@ async function  handlePrint(){
         setParsedList(holder)
 
     }
+    // const date = new Date(Date.now()).toDateString()
 
     return (
         <div>
@@ -86,12 +101,17 @@ async function  handlePrint(){
                         {soList.length ? soList.map(so=>{return(<li key={so}>{so}</li>)}):null}
                     </ul>
                 </form>
-                {soList.length ? <div><button onClick={handlePrint}>Generate PDF</button> <button onClick={()=>{
+                {soList.length ? <div><button onClick={handleGenerate}>Generate</button> <button onClick={()=>{
                     setSoList([])
                     setParsedList([])
                     setServerList([])
                 }}>Clear List</button></div> : null}
-                
+                {generate? 
+                <DownloadExcel 
+                    data={data}
+                    fileName={new Date(Date.now()).toDateString()}
+                />:null}
+            
 
             </div>
             

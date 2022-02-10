@@ -23,12 +23,13 @@ var db = mysql.createPool({
   });
 
   app.get('/api/getpolist',(req,res)=>{
+
     db.query('SELECT distinct po from po_list ORDER BY po DESC LIMIT 10;', function (err, results, fields) {
 
       // Some function to filter dup results
       
    
-
+    
 
       // if (err) throw err;
       res.status(200).send(results)
